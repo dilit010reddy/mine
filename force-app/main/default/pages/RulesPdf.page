@@ -1,0 +1,45 @@
+<apex:page showHeader="false" controller="RulesPdfController" renderAs="pdf" html-style="height: 100%">
+    <script src="/canvas/sdk/js/publisher.js"/>
+
+  <script>
+    sfdc.canvas.publisher.resize( { height : "500px" } );
+  </script>
+    <apex:pageBlock title="Current Rule" rendered="{! If(isCurrentRule==true ,true,false) }">
+    	<apex:pageBlockSection title="{! initialRulesVar.Order__c }.{! initialRulesVar.Title__c }">
+            <!--<apex:outputField value="{! RulesVar.Title__c }"/>-->
+            <p>
+                {! initialRulesVar.Text__c }
+            </p>
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+    <apex:pageBlock >
+        <!--<hr/> title="SubRules"-->
+        <apex:repeat var="subRule" value="{!initialSubRuleVar}">
+            <apex:pageBlockSection >
+                <p>
+                    {!subRule.Alpha_Order__c}.{!subRule.Description__c}
+                </p>
+            </apex:pageBlockSection>
+            <!--<hr/>-->
+        </apex:repeat>
+    </apex:pageBlock>
+    <apex:pageBlock title="Proposed New Rule">
+        <apex:pageBlockSection title="{! RulesVar.Order__c }.{! RulesVar.Title__c }">
+            <!--<apex:outputField value="{! RulesVar.Title__c }"/>-->
+            <p>
+                {! RulesVar.Text__c }
+            </p>
+        </apex:pageBlockSection>
+    </apex:pageBlock>    
+    <apex:pageBlock >
+        <!--<hr/> title="SubRules"-->
+        <apex:repeat var="subRule" value="{!subruleVar}">
+            <apex:pageBlockSection >
+                <p>
+                    {!subRule.Alpha_Order__c}.{!subRule.Description__c}
+                </p>
+            </apex:pageBlockSection>
+            <!--<hr/>-->
+        </apex:repeat>
+    </apex:pageBlock>
+</apex:page>

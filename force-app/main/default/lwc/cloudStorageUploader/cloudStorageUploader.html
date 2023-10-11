@@ -1,0 +1,32 @@
+<template>
+    <template if:true={show}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-uploader" aria-modal="true"
+            aria-describedby="modal-content-uploader" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 id="modal-heading-uploader" class="slds-modal__title slds-hyphenate">Upload Files</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-item-list">
+                    <lightning-card>
+                        <ul class="slds-m-around_medium">
+                            <template for:each={items} for:item="item">
+                                <li key={item.file.name}>
+                                    <b style="color:cornflowerblue">{item.file.name}</b>
+                                </li>
+                            </template>
+                        </ul>
+                    </lightning-card>
+                </div>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-uploader">
+                    <lightning-input type="file" label="Files" accept="audio/*,video/*,image/*,.doc,.pdf,.zip"
+                        onchange={onChange} multiple>
+                    </lightning-input>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={uploadComplete}>Upload</button><button class="slds-button slds-button_neutral" onclick={hideUploader}>Cancel</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

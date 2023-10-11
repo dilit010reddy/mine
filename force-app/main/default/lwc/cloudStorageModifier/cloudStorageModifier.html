@@ -1,0 +1,45 @@
+<template>
+    <template if:true={show}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-uploader" aria-modal="true"
+            aria-describedby="modal-content-uploader" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 id="modal-heading-uploader" class="slds-modal__title slds-hyphenate">Item Details</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-item">
+                    <lightning-layout>
+                            <lightning-layout-item size="10" padding="around-small">
+                            <div id="modal-content-type">
+                                <lightning-input type="text" name="type" label="Type" value={item.extension} disabled></lightning-input>
+                            </div>
+                            <div id="modal-content-name">
+                                <lightning-input type="text" name="name" label="Name" value={item.display_name} onkeyup={updateName} disabled={isfolder}></lightning-input>
+                            </div>
+                            <div id="modal-content-path">
+                                <lightning-input type="text" name="path" label="Path" value={item.display_path} disabled></lightning-input>
+                            </div>
+                            <div id="modal-content-size">
+                                <lightning-input type="text" name="size" label="Size" value={item.size} disabled></lightning-input>
+                            </div>
+                            <div id="modal-content-lastmodified">
+                                <lightning-input type="text" name="lastmodified" label="Last Modified" value={item.last_modified} disabled></lightning-input>
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+                <template if:true={isfolder}>
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick={hideUploader}>Done</button>
+                    </footer>
+                </template>
+                <template if:false={isfolder}>
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick={onSubmit}>Save</button><button class="slds-button slds-button_neutral" onclick={hideUploader}>Cancel</button>
+                    </footer>
+                </template>
+                
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

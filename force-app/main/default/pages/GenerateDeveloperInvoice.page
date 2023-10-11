@@ -1,0 +1,123 @@
+<apex:page controller="GenerateDeveloperInvoiceController" renderAs="PDF" >
+   <table width="100%">
+      <apex:repeat value="{!diViewList}" var="di" id="theRepeat">
+        <tr>
+            <td>
+                <table width="100%">
+       <tr>
+           <td width="50%">
+               <apex:image url="{!$Resource.HelsingLogo}" width="342px;"/>
+           </td>
+           <td width="50%">
+               <apex:image url="{!$Resource.HelsingLogo2}" width="342px;"/>
+           </td>
+        </tr>
+    </table>
+    <br/><br/>
+    <table width="100%">
+        <tr style="vertical-align:top">
+            <td width="40%">
+                <span style="font-weight:bold;">FROM:<br/>{!accName}</span><br/>
+                C/o The Helsing Group, Inc.<br/>
+                {!accAddress}<br/>
+                {!accCSZ}<br/>
+                {!accPhone}<br/>
+                {!emailHG}
+            </td>
+            <td width="40%">
+                <span style="font-weight:bold;">TO:<br/>{!di.d_Name}</span><br/>
+                {!di.d_Address}<br/>
+                {!di.d_City}, {!di.d_State} {!di.d_Zipcode}
+                <br/><br/>
+                Account: {!devAcct}<br/>
+            </td>
+            <td width="20%" style="background-color: #d3d3d3">
+                <span style="font-weight:bold;">Statement Date:</span><br/>
+                {!MONTH(TODAY())}/{!DAY(TODAY())}/{!YEAR(TODAY())} <br/><br/>
+                <span style="font-weight:bold;">Statement No:</span><br/>
+                <!-- <apex:outputText value="{0,date,MMYY}">
+                    <apex:param value="{!TODAY()}" /> 
+                </apex:outputText><br/><br/> -->
+                {!statementno} <br/><br/>
+                <span style="font-weight:bold;">Payment Due Date:</span><br/>
+                {!firstOfNextMonth} <br/>
+            </td>
+        </tr>
+    </table>
+    <br/>
+    <table style="border-top: solid 3px !important; width:100%">
+        <tr width="100%">
+            <td style="font-weight:bold;font-size:18px; ">
+                Assessments for lots/units owned on {!firstOfNextMonth}
+            </td>
+        </tr>
+        <tr>
+            <td width="50%">
+                &nbsp;
+            </td>
+            <td width="50%" height="85px" style="background-color: #d3d3d3">
+                STATEMENT TOTAL DUE: &nbsp; <span style="font-weight:bold;"><apex:outputText value="{0, Number, Currency}" >
+                                        <apex:param value="{!di.AggregateTotal}" />
+                                    </apex:outputText></span>
+            </td>
+        </tr>
+    </table>
+    <br/><br/><br/>
+            </td>
+        </tr>
+         <!-- <tr>
+            <td>{!di.d_Name}</td>
+         </tr>
+         <tr>
+            <td>{!di.d_Address}</td>
+         </tr>
+         <tr>
+            <td>{!di.d_City}, {!di.d_State} {!di.d_Zipcode}</td>
+         </tr> -->
+         <apex:repeat value="{!di.units}" var="u">
+            <tr>
+                <td>
+                    <br />
+                    <table width="100%" style="page-break-inside: avoid;">
+                            <tr>
+                                <td colspan="3" style="text-align:center;">{!u.u_streetNumber} {!u.u_streetName}{!IF(u.u_UnitNumber <> '',' Unit ' + u.u_UnitNumber,'')}</td>
+                            </tr>  
+                            <tr style="background-color:#D3D3D3;">
+                                <td>Item</td>
+                                <td>Description</td>
+                                <td>Amount</td>
+                            </tr>
+                        <apex:repeat value="{!u.bdList}" var="dbd">
+                            <tr>
+                                <td>{!dbd.ret_PostCode}</td>
+                                <td>{!dbd.ret_Memo}</td>
+                                <td>${!dbd.ret_Amount}</td>
+                            </tr>
+                        </apex:repeat>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td style="border-top: double;">${!u.AggregateTotal}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+         </apex:repeat>
+         <tr style="page-break-after: always;">
+             <td style="text-align:right;">STATEMENT TOTAL DUE: ${!di.AggregateTotal}</td>
+         </tr>
+      </apex:repeat>
+   </table>
+   <span><br/><br/><br/><br/>
+       Payment Details<br/><br/>
+        Please remit payment to:<br/>
+        {!remit1}<br/>
+        The Helsing Group, Inc. <br/>
+        {!accAddress}<br/>
+        {!accCSZ}<br/>
+        {!accPhone}<br/><br/>
+        NOTICE: The obligation to pay assessments for all units/lots owned on the {!firstOfNextMonth} runs with the land 
+        and must be received on or before {!middleOfNextMonth} in order to avoid late fees. If you did not own any of the units/lots shown
+        on this statement on {!firstOfNextMonth}, simply ignore it and subtract the amount of that unit/lot from the balance due.
+   </span>
+</apex:page>

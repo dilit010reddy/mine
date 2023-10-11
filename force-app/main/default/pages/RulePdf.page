@@ -1,0 +1,34 @@
+<apex:page controller="RulePdfController" renderAs="pdf">
+    <head>
+        <style>
+            body
+            { 
+            	overflow: hidden;
+            }
+        </style>
+    </head>
+  <apex:repeat var="Rule" value="{!RulesVar}">  
+    <apex:pageBlock title="{! Rule.Order__c}.{! Rule.Title__c }">
+        <apex:pageBlockSection >
+                <apex:outputField label="Revised Date :" title="Revised Date : " value="{!Rule.Revised_Date__c}" style="margin-right:3px;"/>
+            </apex:pageBlockSection>
+        <apex:pageBlockSection >
+            <!--<apex:outputField value="{! RulesVar.Title__c }"/>-->
+            <p>
+                {! Rule.Text__c }
+            </p>
+        </apex:pageBlockSection>
+    </apex:pageBlock>    
+    <apex:pageBlock >
+        <!--<hr/> title="SubRules"-->
+        <apex:repeat var="subRule" value="{!subruleVar}">
+            <apex:pageBlockSection >
+                <p>
+                    &nbsp;&nbsp;{!subRule.Alpha_Order__c}.{!subRule.Description__c}
+                </p>
+            </apex:pageBlockSection>
+            <!--<hr/>-->
+        </apex:repeat>
+    </apex:pageBlock>
+    </apex:repeat>
+</apex:page>

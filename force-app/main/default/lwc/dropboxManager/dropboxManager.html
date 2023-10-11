@@ -1,0 +1,156 @@
+<template>
+    <lightning-card title="Dropbox Manager">
+        <template if:true={isLoading}> 
+            <div class="spinner-div">
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </div>
+        </template>
+        <template if:true={initialized}>
+            <div class="c-container">
+                <lightning-layout pull-to-boundary="small">
+                    <lightning-layout-item flexibility="auto" padding="horizontalSmall">
+                        <lightning-button-group class="button-group">
+                            <lightning-button label="Refresh" onclick={refresh}></lightning-button>
+                            <template if:false={isUploadDisabled}>
+                                <lightning-button label="Upload" onclick={upload}></lightning-button>
+                            </template>
+                            <template if:false={isMoveDisabled}>
+                                <lightning-button label="Move" onclick={move}></lightning-button>
+                            </template>
+                            <template if:false={isDeleteDisabled}>
+                                <lightning-button variant="destructive" label="Delete" onclick={handleDelete} title="Delete File(s)" icon-name="utility:delete" class="slds-m-left_x-small"></lightning-button>
+                            </template>
+                        </lightning-button-group>
+                    </lightning-layout-item>
+                    <template if:false={isWorkflowDisabled}>
+                        <lightning-layout-item flexibility="auto" padding="horizontalSmall">
+                            <div class="button-group">
+                                <lightning-combobox
+                                    name="workflow"
+                                    label ="Workflows"
+                                    variant="label-hidden"
+                                    value={workflowSelected}
+                                    placeholder="Select A Workflow"
+                                    options={workflows}
+                                    onchange={handleWorkflowChange}>
+                                </lightning-combobox>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="horizontalSmall">
+                            <lightning-button-group class="button-group">
+                                <lightning-button label="Run" variant="brand" onclick={runWorkflow}></lightning-button>
+                            </lightning-button-group>
+                        </lightning-layout-item>
+                    </template>
+                    <template if:false={isSearchDisabled}>
+                        <lightning-layout-item flexibility="auto" padding="horizontalSmall">
+                            <div class="button-group">
+                                <lightning-input
+                                    name="enter-search"
+                                    label="Search"
+                                    type="search"
+                                    placeholder="Search Directory"
+                                    variant="label-hidden"
+                                    oncommit={onSearchCommit}
+                                ></lightning-input>
+                            </div>
+                        </lightning-layout-item>
+                    </template>
+                </lightning-layout>
+            </div>
+            <lightning-breadcrumbs class="breadcrumb-group">
+                <template for:each={pathParts} for:item="dir">
+                    <lightning-breadcrumb
+                        key={dir.key}
+                        label={dir.label}
+                        name={dir.path}
+                        onclick={navigate}>
+                    </lightning-breadcrumb>
+                </template>
+            </lightning-breadcrumbs>
+            <div class="c-container">
+                <div style="height: 15rem;">
+                    <c-cloud-storage-data-table
+                            key-field="id"
+                            data={data}
+                            columns={columns}
+                            onitemclick={handleItemClick}
+                            onrowselection={handleRowClick}
+                            onrowaction={handleRowAction}
+                            sorted-direction={sortDirection}
+                            sorted-by={sortedBy}
+                            onsort={sortData}
+                            wrap-text-max-lines="2">
+                    </c-cloud-storage-data-table>
+                </div>    
+            </div>
+        </template>
+        <template if:false={initialized}>
+            <template if:true={isAdmin}>
+                <lightning-button-group class="button-group">
+                    <lightning-button variant="brand" label="Initialize Dropbox Account" onclick={initDropbox}></lightning-button>
+                </lightning-button-group>
+            </template>
+            <template if:false={isAdmin}>
+                <div class="slds-p-around_medium lgc-bg">
+                    This Dropbox account must be initialized by a System Administrator.
+                </div>
+            </template>
+        </template>
+    </lightning-card>
+
+    <!--Uploader Modal-->
+    <c-cloud-storage-uploader
+            show={showFileUploader}
+            items={uploadedFiles}
+            onuploadchange={handleFileUpload}
+            onuploadcomplete={onUploadComplete}
+            onhide={closeUpload}>
+    </c-cloud-storage-uploader>
+
+    <!--Viewer Modal-->
+    <c-cloud-storage-modifier
+            show={showItemViewer}
+            item={itemViewing}
+            isfolder={isFolder}
+            onsubmit={onViewSubmit}
+            onhide={closeViewer}>
+    </c-cloud-storage-modifier>
+
+    <!--Mover Modal-->
+    <c-cloud-storage-mover
+        show={showMover}
+        rows={moverData}
+        moverbreadcrumbs={moverParts}
+        isloading={isMoverLoading}
+        isdisabled={isMoveDisabled}
+        onnavigate={moverNavigate}
+        onitemclick={moverHandleItemClick}
+        onsubmit={onMoveSubmit}
+        onclose={closeMover}>
+    </c-cloud-storage-mover>
+
+    <!--Confirm Modal-->
+    <c-confirm-modal
+        show={showConfirm}
+        message={confirmMessage}
+        action={confirmAction}
+        onconfirm={onConfirmProceed}
+        oncancel={onConfirmCancel}>
+    </c-confirm-modal>
+
+     <!--Directory Creator Modal-->
+     <c-cloud-storage-directory-creator
+        show={showDirectoryCreator}
+        onhide={closeDirectoryCreator}
+        onsubmit={onDirectoryCreateSubmit}>
+    </c-cloud-storage-directory-creator>
+
+    <!--Directory Creator Modal-->
+    <c-cloud-storage-home-address-directory
+        show={showHomeOwnerCreator}
+        onhide={closeDirectoryCreator}
+        onsubmit={onDirectoryCreateSubmit}
+        record-id={recordId}>
+    </c-cloud-storage-home-address-directory>
+</template>

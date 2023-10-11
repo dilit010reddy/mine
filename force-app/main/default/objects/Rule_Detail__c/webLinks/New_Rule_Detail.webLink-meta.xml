@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>New_Rule_Detail</fullName>
+    <availability>online</availability>
+    <displayType>massActionButton</displayType>
+    <encodingKey>UTF-8</encodingKey>
+    <height>600</height>
+    <linkType>url</linkType>
+    <masterLabel>New Rule Detail</masterLabel>
+    <openType>sidebar</openType>
+    <protected>false</protected>
+    <requireRowSelection>false</requireRowSelection>
+    <url>{!URLFOR( &apos;/lightning/o/Rule_Detail__c/new?defaultFieldValues=Title__c=&apos;+ URLENCODE( Rule__c.Rule_Name__c)+&apos;,Rule__c=&apos;+ Rule__c.Id+&apos;&amp;navigationLocation=RELATED_LIST&amp;backgroundContext=%2Flightning%2Fr%2FRule__c%2F&apos;+ Rule__c.Id +&apos;%2Fview&apos; )}</url>
+</WebLink>

@@ -1,0 +1,15 @@
+.c-container {
+    margin: 10px 10px 20px 10px;
+}
+
+.button-group {
+    margin: 1em;
+}
+
+.breadcrumb-group {
+    margin: 1em;
+}
+
+.spinner{
+    position: absolute;
+}

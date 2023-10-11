@@ -1,0 +1,7 @@
+<apex:page showheader="false"
+lightningStylesheets="true">
+
+<apex:slds />
+<div class="slds-scope">
+<flow:interview name="Unsubscribe_Link" finishLocation="{!$Page.UnsubscribeFinish}"/></div>
+</apex:page>

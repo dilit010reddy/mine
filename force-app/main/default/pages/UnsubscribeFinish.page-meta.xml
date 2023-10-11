@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApexPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>50.0</apiVersion>
+    <availableInTouch>true</availableInTouch>
+    <confirmationTokenRequired>false</confirmationTokenRequired>
+    <description>Update the Unsubscribe Link app from AppExchange by modifying the finish of the visualforce page &quot;Unsubscribe&quot; to route to this page. This avoids having the flow end at &quot;Your Flow has Finished.&quot;</description>
+    <label>UnsubscribeFinish</label>
+</ApexPage>

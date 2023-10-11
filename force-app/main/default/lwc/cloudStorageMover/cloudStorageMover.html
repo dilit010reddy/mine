@@ -1,0 +1,46 @@
+<template>
+    <template if:true={show}>
+        <template if:true={isloading}>
+            <div class="spinner-div">
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </div>
+        </template>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-mover" aria-modal="true"
+            aria-describedby="modal-content-mover" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 id="modal-heading-mover" class="slds-modal__title slds-hyphenate">Move Items</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-mover">
+                    <div class="c-container">
+                        <h3>Select a Path:</h3>
+                        <lightning-breadcrumbs class="breadcrumb-group">
+                            <template for:each={moverbreadcrumbs} for:item="dir">
+                                <lightning-breadcrumb
+                                    key={dir.key}
+                                    label={dir.label}
+                                    name={dir.path}
+                                    onclick={navigate}>
+                                </lightning-breadcrumb>
+                            </template>
+                        </lightning-breadcrumbs>
+                        <div style="height: 200px;">
+                            <c-cloud-storage-data-table
+                                    key-field="id"
+                                    data={rows}
+                                    columns={columns}
+                                    onitemclick={handleItemClick}
+                                    hide-checkbox-column="true">
+                            </c-cloud-storage-data-table>
+                        </div>    
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={handleSubmit} disabled={isdisabled}>Move</button>
+                    <button class="slds-button slds-button_neutral" onclick={closeModal}>Cancel</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

@@ -1,0 +1,7 @@
+<apex:page showHeader="false" applyHtmlTag="true" applyBodyTag="false" standardStylesheets="false" lightningStylesheets="true">
+
+<p></p>
+
+<span style="font-family: Arial Unicode MS; text-align:center; font-size: 14pt;">Thank you. You have successfully unsubscribed. You will receive a confirmation email shortly.</span>
+
+</apex:page>

@@ -1,0 +1,27 @@
+<apex:page controller="AccountRulePdfController" renderAs="pdf">
+    <apex:variable value="{!1}" var="rowNum"/>
+    <apex:repeat var="Rule" value="{!RulesVar}">  
+        <apex:pageBlock title="{!Rule.Order__c}.{! Rule.Title__c }">
+            <apex:pageBlockSection >
+                <apex:outputField label="{!relatedDateLabel}" title="Revised Date : " value="{!Rule.Revised_Date__c}" style="margin-right:3px;"/>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection >         
+                <p>{!Rule.Text__c }
+                </p>
+            </apex:pageBlockSection>        
+        </apex:pageBlock>    
+        <apex:pageBlock >
+            <!--<hr/> title="SubRules"-->
+            <apex:repeat var="subRule" value="{!subruleVar[Rule.Id]}">
+                <apex:pageBlockSection rendered="{!if(subRule==null,false,true)}" >
+                    <p>
+                        &nbsp;&nbsp;{!subRule.Alpha_Order__c}.{!subRule.Description__c}
+                    </p>
+                </apex:pageBlockSection>
+                <!--<hr/>-->
+            </apex:repeat>
+        </apex:pageBlock>
+        <apex:variable var="rowNum" value="{!rowNum + 1}"/>
+    </apex:repeat>
+    
+</apex:page>
